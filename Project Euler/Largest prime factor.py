@@ -17,8 +17,6 @@ def get_prime_number(value):
     return array
 
 
-
-
 def is_prime_number(value):
     if (value - 1)%6 == 0:
         return True
