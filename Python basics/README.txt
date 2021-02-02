@@ -4,7 +4,7 @@ Python:
 # Needs / overview:
 
 Python interpreter -> makes the system understand what we want it to do. I.e if you have python script you need a python interpreter to read and run that code.
-Virtual Environments -> This allaws you to install everything you need to instally python specific code. This means you don't have to install those specific packages system wide.
+Virtual Environments -> This allaws you to install everything you need to install python specific code. This means you don't have to install those specific packages system wide.
 Package Management with pip -> pip is used to install and remove python packages for python to help make things run.
 
 
@@ -40,7 +40,7 @@ We want this so we can write code that isn't tied to the existing environment. T
 # Create a Virtual Environment
 
 First install python.
-Then instally python-virtualenv
+Then install python-virtualenv
 i.e sudo yum install python3-virtualenv
 
 run python -m venv <Path/virtual_environment_name>
@@ -75,8 +75,8 @@ Subtraction (-)
 Multiplication (*)
 Modulus (%) (The remander after a division) I.e 5 % 2 = 5 
 Exponent (**)
-Divistion (/) (Normal divison which can spit out an int, float, or long) i.e 5 / 2 = 2.5
-Floor Divistion (//) (is a normal division operation except that it retrns the largest possible integer.) i.e 5 // 2 = 2
+Division (/) (Normal divison which can spit out an int, float, or long) i.e 5 / 2 = 2.5
+Floor Division (//) (is a normal division operation except that it returns the largest possible integer.) i.e 5 // 2 = 2
 
 Equal to (==)
 Not equal to (!=) or (<>) (<> is no longer in use after python 3 or above but it can be used in python 2 or below)
@@ -84,3 +84,15 @@ Greater than (>)
 Greater than or equal to (>=)
 Less than (<)
 Less than or equal to (<=)
+
+
+# Conditionals
+
+if <condition>:
+elif <condition:
+else:
+
+# Loops
+
+for <condition>:
+while <condition>:

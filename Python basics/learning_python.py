@@ -209,3 +209,14 @@ print("")
 
 print("Using the continue statement it will skip the rest of the code in the loop and move onto the next iteration of the loop.")
 print("Using the pass statement is just a place holder. Its used to be used when you want to place future code. When it hits pass nothing happens. It's good if you want to have some statement but you don't want to put anything in that statement yet.")
+
+
+# Just for some fun lets print a pyramid 
+var_length = 10
+var_astr = "*"
+for i in range(var_length):
+    for j in range(var_length - i):
+        print(" ", end="") # using end="" mean it wont print a new line
+    print(var_astr)
+    var_astr += "**"
+    
