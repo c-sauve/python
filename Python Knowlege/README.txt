@@ -96,3 +96,12 @@ else:
 
 for <condition>:
 while <condition>:
+
+# Functions
+
+To write a python function you would write def <name_of_function(<paramaters>):
+
+def some_function(some_paramaters_if_required):
+	if <do_some_logic>:
+		print("some stuff happened")
+	return

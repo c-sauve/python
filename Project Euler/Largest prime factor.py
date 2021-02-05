@@ -26,7 +26,6 @@ def is_prime_number(value):
 
 
 value = 600851475143
-value = 39
 winner = 0
 cont = True
 while cont:
