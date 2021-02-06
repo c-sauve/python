@@ -22,62 +22,185 @@ What is the value of the first triangle number to have over five hundred divisor
 
 '''
 import datetime
+import sympy
 from math import sqrt
 
 start_time = datetime.datetime.now()
 counter = 1
-triangle_divisors_length = 100
+triangle_divisors_length = 500
 found_triangle = {0: 0}
 
 # First we need to get a list of triangle numbers.
 
 
 def get_triangle_size(var_triangle_number):
-    triangle_counter = 0
-    for numbers in range(1, var_triangle_number + 1):
-        triangle_counter = triangle_counter + numbers
-    return {var_triangle_number: triangle_counter}
+    # Comenting this portion out as this takes too long to figure out using the loop
+    #triangle_counter = 0
+    #for numbers in range(1, var_triangle_number + 1):
+    #    triangle_counter = triangle_counter + numbers
+
+    # This is the equation to find the value of a triangle
+    check = var_triangle_number*(var_triangle_number+1)/2
+    return {var_triangle_number: check}
+
+
+# Here we will find all the divisors for a number This is the slow way to find the divisors
 
 
 def get_divisors(var_triangle):
     triangle_divisors = []
-    for check_divisors in range(1, int(var_triangle / 2) + 1):
+    for check_divisors in range(1, int(sqrt(var_triangle) + 1), 1):
         if var_triangle % check_divisors == 0:
             triangle_divisors.append(check_divisors)
+            if check_divisors != var_triangle/check_divisors:
+                triangle_divisors.append(var_triangle/check_divisors)
+    #triangle_divisors.append(int(var_triangle))
     return triangle_divisors
 
 
-while len(get_divisors(found_triangle[counter - 1])) < triangle_divisors_length:
-    found_triangle = get_triangle_size(counter)
-
-    time_diff = (datetime.datetime.now() - start_time)
-    if int(time_diff.total_seconds()) % 30 == 0:
-        print("Script running " + str(datetime.datetime.now()))
-        print(found_triangle)
-    # print("counter " + str(counter) + " Divisors " + str(len(get_divisors(found_triangle[counter]))))
-    counter += 1
+# This is the faster way to find the divisors.
 
 
-print(found_triangle)
-print(counter)
-print(get_divisors(found_triangle[counter - 1]))
-print(len(get_divisors(56623104)))
-# So with the above code... it "works" it just takes WAY TOO long to find the answer :,(
-#   i've gone to seek out other mathematical solutions to help the code run faster.
+def find_divisors(var_array_of_small_primes):
+    duplicates = {}
+    num_of_divisors = 1
+    for values in var_array_of_small_primes:
+        if values in duplicates:
+            continue
+        else:
+            duplicates[values] = var_array_of_small_primes.count(values)
+    for divisors in duplicates:
+        num_of_divisors *= (duplicates[divisors] + 1)
 
-#new_counter = 1
-#cont = True
-#while cont:
-#    limit = int(sqrt(new_counter))
-#    divisors_list = []
-#    for i in range(1, limit+1, 1):
-#        if new_counter % i == 0:
-#            divisors_list.append(i)
-#            if i != new_counter/i:
-#                divisors_list.append(new_counter/i)
-#    if len(divisors_list) >= 500:
-#        print(len(divisors_list))
-#        cont = False
-#    print(new_counter)
-#    new_counter += 1
+    return num_of_divisors
+
+
+def is_triangle(var_triangle):
+    ## This is the long version
+    ## Base case
+    #if var_triangle < 0:
+    #    return False
+    ## A Triangular number must be
+    ## sum of first n natural numbers
+    #var_sum, n = 0, 1
+    #while var_sum <= var_triangle:
+    #    var_sum += n
+    #    if var_sum == var_triangle:
+    #        return True
+    #    n += 1
+    #return False
+
+    # Shorter version
+    find_val = int(sqrt(2 * var_triangle))
+    return 0.5*find_val*(find_val + 1) == var_triangle
+
+
+
+
+'''
+There is a method that can be used to find how many divisors a number has.
+ It's known as the prime number decomposition theorem:
+ Every integer N is the product of powers of prime numbers
+ N = pαqβ· … · rγ
+Where p, q, …, r are prime, while α, β, …, γ are positive integers. 
+Such representation is unique up to the order of the prime factors.
+If N is a power of a prime, N = pα, then it has α + 1 factors:
+1, p, …, pα-1, pα
+The total number of factors of N equals (α + 1)(β + 1) … (γ + 1)
+
+500 = 2 x 2 x 5 x 5 x 5
+So, the number in question should be of the form abq^4r^4s^4 where a, b, q, r, s are primes that minimize abq^4r^4s^4. 
+This is satisfied by 7x11x2^4x3^4x5^4 = 62370000. 
+This marks the end of the First Step which is where we start our search for our magic number.
+'''
+
+#while len(get_divisors(found_triangle[counter - 1])) < triangle_divisors_length:
+#    found_triangle = get_triangle_size(counter)
 #
+#    time_diff = (datetime.datetime.now() - start_time)
+#    if int(time_diff.total_seconds()) % 30 == 0:
+#        print("Script running " + str(datetime.datetime.now()))
+#        print(found_triangle)
+#    # print("counter " + str(counter) + " Divisors " + str(len(get_divisors(found_triangle[counter]))))
+#    counter += 1
+#
+#
+#print(found_triangle)
+#print(counter)
+#print(get_divisors(found_triangle[counter - 1]))
+#print(len(get_divisors(56623104)))
+
+def find_smallest_primes(value):
+    smallest_primes = []
+    while not sympy.isprime(int(value)):
+        if int(value) == 1:
+            break
+        for prime_numbers in sympy.primerange(1, value):
+            if value % prime_numbers == 0:
+                smallest_primes.append(prime_numbers)
+                value /= prime_numbers
+                #print(int(value))
+                #print(prime_numbers)
+                if int(value) == 1:
+                    break
+
+    smallest_primes.append(int(value))
+
+    return sorted(smallest_primes, reverse=True)
+
+
+def get_prime_numbers(var_range):
+    prime_numbers = []
+    for numbers in range(1, var_range):
+        prime_numbers.append(sympy.prime(numbers))
+    return prime_numbers
+
+
+def find_powers_of_primes(var_array):
+    list_of_powers = []
+    prime_number_decomposition = 1
+    for values in var_array:
+        check_value = values - 1
+        if check_value > 0 and not sympy.isprime(check_value):
+            list_of_powers.append(check_value)
+    # We need to add the +1 so we can get the prime number from the specified value. That is because it when it looks it
+    #   starts at the value 0. So if we put in a value of 5 it goes 0,1,2,3,4 but we will need that value 5 hence the +1
+    list_prime_numbers = get_prime_numbers(len(list_of_powers) + 1)
+
+    for index in range(len(list_of_powers)):
+        #print(list_of_powers[index], list_prime_numbers[index])
+        prime_number_decomposition *= list_prime_numbers[index] ** list_of_powers[index]
+    return prime_number_decomposition
+
+
+def is_triangle_number(value):
+    check = value*(value+1)/2
+    return check
+
+
+def last_term(n):
+    if is_triangle(n):
+        return int(sqrt(2*n))
+    else:
+        return None
+
+
+'''
+I used this link to help me understand how to find the right number
+https://math.stackexchange.com/questions/2487305/how-is-the-prime-number-decomposition-theorem-correctly-used
+'''
+
+small_primes = find_smallest_primes(triangle_divisors_length)
+found_divisor_numbers = find_powers_of_primes(small_primes)
+
+while not is_triangle(found_divisor_numbers):
+    found_divisor_numbers += 1
+
+seriesLastTerm = last_term(found_divisor_numbers)
+
+# Iterate over triangle numbers checking for divisors > 500
+while len(get_divisors(found_divisor_numbers)) <= triangle_divisors_length:
+    # add the next term to check to get the next triangle number
+    found_divisor_numbers += (seriesLastTerm + 1)
+    seriesLastTerm += 1
+print(found_divisor_numbers)

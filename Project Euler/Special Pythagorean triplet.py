@@ -24,9 +24,9 @@ a**2 + b**2 = c**2
 1000 - c = a + b
 '''
 import math
-
-for a in range(1, 1000):
-    for b in range(2, 1000):
+value = 1000
+for a in range(1, value):
+    for b in range(2, value):
         ab = (a**2 + b**2)
         c = math.sqrt(ab)
         if (a + b + c) == value:

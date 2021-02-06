@@ -7,7 +7,7 @@ What is the largest prime factor of the number 600851475143 ?
 
 '''
 
-prime_numbers = [3, 5, 7, 11]
+prime_numbers = [2, 3, 5, 7, 11]
 def get_prime_number(value):
     array = []
     for numbers in range(value):
@@ -26,6 +26,7 @@ def is_prime_number(value):
 
 
 value = 600851475143
+value = 20
 winner = 0
 cont = True
 while cont:
@@ -39,6 +40,7 @@ while cont:
                 else:
                     winner = value
                     value = (round(value/numbers))
+                    print(numbers)
                     print(value)
                     if value in prime_numbers:
                         winner = value
@@ -47,7 +49,9 @@ while cont:
                     elif value == 1:
                         cont = False
                         break
-if winner % 2 == 0:
+
+print(winner)
+if winner % 2 == 0 and winner != 2:
     print("There are no prime factors other than 1")
 else:
     print("The largest prime factor is " + str(winner))
